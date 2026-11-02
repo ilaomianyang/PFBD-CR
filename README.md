@@ -1,5 +1,7 @@
 # TrustMeteo-QC
 
+**English** | [简体中文](README.zh-CN.md)
+
 Research code for trust-aware quality control and safety-constrained recovery
 of meteorological sensor streams.
 
@@ -23,6 +25,12 @@ The V9 future-window study was not evaluated and does not contribute to the
 reported performance claims. Stage500 remains exploratory and does not replace
 the frozen V6 evidence. Mixed and negative transfer results must remain visible.
 
+See [README.zh-CN.md](README.zh-CN.md) for the Chinese project guide.
+See [DATA_SOURCE_PAPERS.md](DATA_SOURCE_PAPERS.md) for direct data-source
+papers, official product documentation, and the evidence boundary. BibTeX
+entries are provided in
+[DATA_SOURCE_REFERENCES.bib](DATA_SOURCE_REFERENCES.bib).
+
 ## Repository layout
 
 ```text
@@ -34,6 +42,9 @@ tests/                            data-independent core tests
 vendor/USAD/                      third-party USAD code and BSD license
 requirements.txt                  tested core Python dependencies
 requirements-optional.txt         optional ERA5 download dependency
+README.zh-CN.md                   Chinese project guide
+DATA_SOURCE_PAPERS.md             data-source papers and official documentation
+DATA_SOURCE_REFERENCES.bib        BibTeX entries for data sources
 ```
 
 The source archive retains stage numbers because they identify the order and
@@ -86,8 +97,9 @@ the original workspace.
 ## Data and credentials
 
 Data remain subject to the terms of ECCC, KNMI, MeteoSwiss, NOAA/NCEI,
-Copernicus, and the other original providers. Obtain each dataset from its
-official source.
+Copernicus, FMI, SMHI, MET Norway, iTrust, and the other original providers.
+Obtain each dataset from its official source; see
+[DATA_SOURCE_PAPERS.md](DATA_SOURCE_PAPERS.md).
 
 Never commit provider credentials to this repository. The ERA5 download path
 expects the user's own Copernicus CDS configuration. Other provider adapters
@@ -97,6 +109,9 @@ must receive credentials from local configuration or environment variables.
 
 Citation metadata is provided in `CITATION.cff`. Replace the software record
 with the associated journal article details once the paper is published.
+The associated article has not been published yet, so no article DOI is
+claimed. Data-source papers and official citations are listed in
+[DATA_SOURCE_PAPERS.md](DATA_SOURCE_PAPERS.md).
 
 ## License
 
