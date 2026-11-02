@@ -1,0 +1,57 @@
+{
+  "protocol_id": "TrustMeteo-QC-phase0-2-v0.1",
+  "frozen_on": "2026-09-09",
+  "purpose": "阶段0到阶段2：冻结安全实验协议并复现现有PC-MSTF-AP-v4基线，不进行模型训练或测试集调参",
+  "data": {
+    "feature_table": "F:/数据集/Analysis/parquet/ml_feature_table.parquet",
+    "baseline_config": "F:/数据集/Analysis/experiments/pc_mstf_ap_v4/config/pc_mstf_ap_v4_config.json",
+    "baseline_report": "F:/数据集/Analysis/experiments/pc_mstf_ap_v4/reports/pc_mstf_ap_v4_report.md",
+    "baseline_tables_dir": "F:/数据集/Analysis/experiments/pc_mstf_ap_v4/tables",
+    "baseline_parquet_dir": "F:/数据集/Analysis/experiments/pc_mstf_ap_v4/parquet"
+  },
+  "split_policy": {
+    "required_column": "split",
+    "allowed_values": ["train", "valid", "test"],
+    "fit_splits": ["train"],
+    "calibration_splits": ["valid"],
+    "evaluation_splits": ["test"],
+    "test_is_locked": true,
+    "time_order_required": true,
+    "duplicate_keys": ["station_key", "timestamp_utc"]
+  },
+  "controlled_attack_policy": {
+    "labeling": "受控攻击标签，不代表真实网络入侵事件",
+    "types": ["spike", "gaussian_noise", "offset", "drift", "stuck", "time_shift"],
+    "future_extensions": ["replay", "single_station", "coordinated_multi_station", "mixed_missing_attack"],
+    "levels": ["low", "medium", "high"],
+    "seeds": [3407, 6257, 7919, 104729, 20260715]
+  },
+  "phase2_expected_baseline": {
+    "detector": {
+      "file": "v4_anomaly_detection_metrics.csv",
+      "row_filters": {"split": "test", "detector": "HGB Detector"},
+      "metrics": {"precision": 0.84375, "recall": 0.4326923076923077, "F1": 0.5720338983050848, "ROC_AUC": 0.8376200869154645, "PR_AUC": 0.6577605441331573},
+      "tolerance": 1e-9
+    },
+    "reconstruction": {
+      "file": "v4_anomaly_reconstruction_metrics.csv",
+      "row_filters": {"split": "test", "scope": "true_anomalies", "model": "V4 End-to-End"},
+      "metrics": {"MAE": 1.2858958371968165, "RMSE": 1.829435983050801, "R2": 0.7799952601417599},
+      "tolerance": 1e-9
+    },
+    "trust": {
+      "file": "v4_trust_summary.csv",
+      "row_filters": {"split": "test"},
+      "metrics": {"ECE": 0.014731733292807567},
+      "tolerance": 1e-9
+    }
+  },
+  "phase2_pass_rules": {
+    "required_files_exist": true,
+    "required_columns_exist": true,
+    "split_values_valid": true,
+    "no_duplicate_station_timestamp_within_split": true,
+    "baseline_metrics_match_within_tolerance": true,
+    "leakage_report_present": true
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "status": "ANALYSIS_FROZEN_BEFORE_OBSERVATION_DOWNLOAD",
+  "package_id": "TMQC-CONFIRMATORY-DISJOINT-MET-NORWAY-20260921-v1.0",
+  "analysis_frozen": true,
+  "analysis_script": "src/stage312_met_norway_disjoint_locked_transfer.py",
+  "analysis_script_present_at_freeze": true,
+  "analysis_script_note": "The analysis contract is frozen here; the implementation must match it exactly before the access gate is opened.",
+  "detector_components": [
+    "Hampel MAD",
+    "Kalman Innovation",
+    "Spatial Consistency"
+  ],
+  "methods": [
+    "trust_valid_f1",
+    "trust_nonstuck_event_macro",
+    "robust_max_deviation",
+    "isolation_forest",
+    "one_class_svm",
+    "pca_reconstruction",
+    "mlp_autoencoder_reconstruction",
+    "knn_distance",
+    "ewma_deviation",
+    "arima_innovation",
+    "gru_predictor",
+    "lightweight_autoencoder",
+    "ics_cps_spc_proxy"
+  ],
+  "method_contract": {
+    "trust_valid_f1": {
+      "family": "trust",
+      "selection_rule": "valid_f1",
+      "target_tuning": true,
+      "fit_budget": "pre-existing Stage244 candidate grid"
+    },
+    "trust_nonstuck_event_macro": {
+      "family": "trust",
+      "selection_rule": "valid_nonstuck_event_macro",
+      "target_tuning": true,
+      "fit_budget": "pre-existing Stage244 candidate grid"
+    },
+    "robust_max_deviation": {
+      "family": "existing_baseline",
+      "model": "maximum positive robust standardized feature deviation",
+      "fit_budget": "all train-normal rows"
+    },
+    "isolation_forest": {
+      "family": "existing_baseline",
+      "model": "IsolationForest",
+      "n_estimators": 300,
+      "contamination": "auto",
+      "random_state": 20260919,
+      "n_jobs": 1,
+      "fit_budget": "all train-normal rows"
+    },
+    "one_class_svm": {
+      "family": "existing_baseline",
+      "model": "StandardScaler + OneClassSVM",
+      "kernel": "rbf",
+      "gamma": "scale",
+      "nu": 0.05,
+      "cache_size": 1000,
+      "max_iter": -1,
+      "fit_seed": 20260919,
+      "reported_fit_budgets": [
+        20000,
+        50000,
+        100000
+      ],
+      "fit_budget_rule": "Report all pre-registered 20k/50k/100k stratified train-normal budgets; do not choose the budget by test."
+    },
+    "pca_reconstruction": {
+      "family": "reconstruction_baseline",
+      "components": 12,
+      "random_state": 20260921,
+      "fit_budget": 100000
+    },
+    "mlp_autoencoder_reconstruction": {
+      "family": "reconstruction_baseline",
+      "hidden_layers": [
+        64,
+        16,
+        64
+      ],
+      "max_iter": 200,
+      "early_stopping": true,
+      "validation_fraction": 0.1,
+      "random_state": 20260921,
+      "fit_budget": 100000
+    },
+    "knn_distance": {
+      "family": "reconstruction_baseline",
+      "neighbours": 5,
+      "fit_budget": 10000,
+      "random_state": 20260921
+    },
+    "ewma_deviation": {
+      "family": "security_baseline",
+      "alpha": 0.2,
+      "target_ground_truth": false
+    },
+    "arima_innovation": {
+      "family": "security_baseline",
+      "ar_order": 4,
+      "implementation": "per-station least-squares AR innovation"
+    },
+    "gru_predictor": {
+      "family": "security_baseline",
+      "hidden_size": 8,
+      "implementation": "fixed random gated recurrent reservoir with deterministic train-normal linear readout",
+      "seed": 20260919
+    },
+    "lightweight_autoencoder": {
+      "family": "security_baseline",
+      "components": 12,
+      "random_state": 20260919,
+      "fit_budget": 100000
+    },
+    "ics_cps_spc_proxy": {
+      "family": "security_baseline",
+      "implementation": "transparent per-station SPC proxy",
+      "not_original_paper_reproduction": true
+    }
+  },
+  "trust_selection_rule": "Use the pre-existing Stage244/248 selection rules without adding a MET Norway-specific choice: trust_valid_f1 selects on valid F1 and trust_nonstuck_event_macro selects on valid non-stuck event macro.",
+  "feature_contract": "Use the existing Stage244 candidate feature set and Stage248 feature matrix without adding MET Norway-specific features.",
+  "train_rule": "Fit all train-normal components and models only on MET Norway train years 2021-2023 after exact metadata, station, split, and Frost quality checks. No valid or test row may affect fitting.",
+  "threshold_rule": "Calibrate the empirical 1-FAR quantile on the frozen 2024 valid-year normal rows only, after deterministic valid attack injection. Test labels are never used for calibration.",
+  "primary_far": 0.01,
+  "primary_endpoint": "event_coverage",
+  "secondary_endpoints": [
+    "f1",
+    "precision",
+    "recall",
+    "row_recall",
+    "false_alarm_rate",
+    "average_precision"
+  ],
+  "cluster_unit": "station",
+  "bootstrap": {
+    "iterations": 10000,
+    "seed": 20260921,
+    "hierarchy": "station within the disjoint MET Norway network",
+    "resampling_unit": "station"
+  },
+  "multiplicity": "Benjamini-Hochberg",
+  "non_inferiority_margin": -0.02,
+  "superiority_rule": "BH-adjusted 95% station-clustered bootstrap CI entirely above 0",
+  "non_inferiority_rule": "BH-adjusted 95% station-clustered bootstrap lower bound greater than -0.02",
+  "claim_ceiling": "A new isolated station-network test under the same provider. It may support station-network robustness and test isolation, but not provider independence, production superiority, or universal superiority.",
+  "frozen_at_utc": "2026-09-21T14:28:39.870796+00:00",
+  "download_script": "src/stage311_met_norway_disjoint_official_download.py",
+  "download_script_sha256": "943de2a7e3127460f9937c459c3d06f326a7b60619698765d2dfc28096979b3c",
+  "analysis_script_sha256": "24c8956f20698d096a559ad55bf8c8bb69347a57ac7ddc29826447b5f8941608",
+  "implementation_frozen_at_utc": "2026-09-21T14:49:46.939313+00:00"
+}

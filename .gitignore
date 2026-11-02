@@ -1,0 +1,60 @@
+# Data and generated experiment artifacts
+raw/
+data/
+tables/
+testbed/
+release/
+wheelhouse/
+clean_env_wheelhouse/
+clean_env_probe_v*/
+clean_room_probe/
+submission_final_20261009/
+reports/figures/
+predictions/
+checkpoints/
+diagnostics/
+runtime/
+
+# Credentials and local configuration
+.env
+.env.*
+.secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Python and test caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Large or regenerable artifacts
+*.parquet
+*.sqlite
+*.db
+*.xlsx
+*.ndjson
+*.pt
+*.pth
+*.ckpt
+*.npz
+*.npy
+*.h5
+*.hdf5
+*.zip
+*.log
+
+# Temporary and editor files
+.tmp/
+tmp_*
+_probe_*
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db

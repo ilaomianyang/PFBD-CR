@@ -1,0 +1,63 @@
+{
+  "sha": "e25af45c8e1c32783aed94fc7e5ab85effef2b1a",
+  "url": "https://api.github.com/repos/manigalati/usad/git/trees/e25af45c8e1c32783aed94fc7e5ab85effef2b1a",
+  "tree": [
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "489b5ca4c18e415aa4debac90c8f2e9fd2521cb5",
+      "size": 1501,
+      "url": "https://api.github.com/repos/manigalati/usad/git/blobs/489b5ca4c18e415aa4debac90c8f2e9fd2521cb5"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dff0d5be9615bbf2e00829b46a0ca268a09610ab",
+      "size": 1376,
+      "url": "https://api.github.com/repos/manigalati/usad/git/blobs/dff0d5be9615bbf2e00829b46a0ca268a09610ab"
+    },
+    {
+      "path": "USAD.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dcb68b75b27073a89d7cb596dbe164555b47cb22",
+      "size": 73031,
+      "url": "https://api.github.com/repos/manigalati/usad/git/blobs/dcb68b75b27073a89d7cb596dbe164555b47cb22"
+    },
+    {
+      "path": "gdrivedl.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b5a0327522200733528f5167de2569914b858e0b",
+      "size": 6773,
+      "url": "https://api.github.com/repos/manigalati/usad/git/blobs/b5a0327522200733528f5167de2569914b858e0b"
+    },
+    {
+      "path": "model.pth",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d30f2a83af6007d8da633e92b4ced510b8cfa20",
+      "size": 3046007,
+      "url": "https://api.github.com/repos/manigalati/usad/git/blobs/3d30f2a83af6007d8da633e92b4ced510b8cfa20"
+    },
+    {
+      "path": "usad.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d8a1d17df47e4a099b47709da2f317710a489ba",
+      "size": 4149,
+      "url": "https://api.github.com/repos/manigalati/usad/git/blobs/2d8a1d17df47e4a099b47709da2f317710a489ba"
+    },
+    {
+      "path": "utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3a8a28fee5a9d22e11c727cf0e1c454f23d2d495",
+      "size": 2164,
+      "url": "https://api.github.com/repos/manigalati/usad/git/blobs/3a8a28fee5a9d22e11c727cf0e1c454f23d2d495"
+    }
+  ],
+  "truncated": false
+}

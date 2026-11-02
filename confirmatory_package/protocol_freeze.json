@@ -1,0 +1,164 @@
+{
+  "status": "PROTOCOL_FROZEN_BEFORE_OBSERVATION_DOWNLOAD",
+  "package_id": "TMQC-CONFIRMATORY-DISJOINT-MET-NORWAY-20260921-v1.0",
+  "protocol_id": "TMQC-MET-NORWAY-DISJOINT-STATIONS-20260921-v1.0",
+  "provider_id": "met_norway_frost",
+  "provider": "Norwegian Meteorological Institute (MET Norway)",
+  "provider_is_new": false,
+  "provider_reuse_boundary": "MET Norway was already used by Stage304-308. This package reuses the provider but selects a disjoint station network. It can support test isolation, not provider independence.",
+  "network_id": "MET_NORWAY_FROST_DISJOINT_V1",
+  "network_is_disjoint_from_stage304": true,
+  "stage304_station_ids": [
+    "SN52535",
+    "SN36200",
+    "SN6020",
+    "SN57770",
+    "SN23550",
+    "SN210",
+    "SN71850",
+    "SN77280",
+    "SN81775",
+    "SN85890",
+    "SN90800",
+    "SN98550"
+  ],
+  "station_count": 12,
+  "station_ids": [
+    "SN47300",
+    "SN32220",
+    "SN5590",
+    "SN59110",
+    "SN64700",
+    "SN700",
+    "SN71990",
+    "SN77490",
+    "SN81650",
+    "SN85840",
+    "SN89985",
+    "SN98580"
+  ],
+  "station_selection_rule": "Use the same official Frost eligibility rule as Stage304, remove every Stage304 station ID, partition latitude into 57-61, 61-64, 64-67, and 67-72, sort each band by longitude then station_id, and select three equally spaced positions by round(i*(n-1)/2), i=0..2.",
+  "selection_observation_access": "Only official source and availableTimeSeries metadata were read. No observation value was requested or inspected.",
+  "years": [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "split": {
+    "train": [
+      2021,
+      2022,
+      2023
+    ],
+    "valid": [
+      2024
+    ],
+    "test": [
+      2025
+    ]
+  },
+  "test_period_start_utc": "2025-01-01T00:00:00Z",
+  "test_period_end_utc": "2025-08-24T23:59:59Z",
+  "primary_element": "air_temperature",
+  "primary_variable": "temperature_c",
+  "primary_level_m": 2.0,
+  "primary_time_offset": "PT0H",
+  "primary_time_resolution": "PT1H",
+  "quality_accepted_codes": [
+    0
+  ],
+  "quality_rule": "Retain a value only when the official Frost qualityCode is 0 (controlled and OK). Frost qualityCode 1 can mean corrected or missing and interpolated, so it is not accepted. Quality codes are data-quality metadata, not attack labels. Values with codes 1, 2, 4, 5, 6, or 7 are retained as missing.",
+  "missing_rule": "Missing values and disallowed quality codes remain missing; no interpolation, sentinel substitution, or imputation is permitted.",
+  "coverage_rule": "A station is retained only if the primary air_temperature coverage is at least 0.70 in every split year and at least one accepted value is present in each split. The 2025 test split ends at 2025-08-24T23:59:59Z and is not a full-year test period.",
+  "attack_types": [
+    "spike",
+    "offset",
+    "drift",
+    "time_shift",
+    "stuck",
+    "gaussian_noise"
+  ],
+  "attack_length": {
+    "spike": 8,
+    "offset": 8,
+    "drift": 12,
+    "time_shift": 8,
+    "stuck": 8,
+    "gaussian_noise": 8
+  },
+  "attack_blocks": 6,
+  "attack_parameters": {
+    "spike": {
+      "kind": "additive",
+      "magnitude": 8.0,
+      "unit": "degC"
+    },
+    "offset": {
+      "kind": "additive",
+      "magnitude": 4.0,
+      "unit": "degC"
+    },
+    "drift": {
+      "kind": "linear_additive",
+      "start": 0.0,
+      "end": 6.0,
+      "unit": "degC"
+    },
+    "time_shift": {
+      "kind": "lag_copy",
+      "lag_rows": 4,
+      "direction": "past",
+      "source_series": "clean_temperature_c"
+    },
+    "stuck": {
+      "kind": "constant_hold",
+      "source": "clean_value_at_first_attack_row"
+    },
+    "gaussian_noise": {
+      "kind": "additive_noise",
+      "sigma": 2.0,
+      "unit": "degC"
+    }
+  },
+  "seeds": [
+    3407,
+    6257,
+    7919,
+    104729,
+    20260715
+  ],
+  "far_grid": [
+    0.005,
+    0.01,
+    0.02,
+    0.05
+  ],
+  "primary_far": 0.01,
+  "primary_endpoint": "event_coverage",
+  "secondary_endpoints": [
+    "f1",
+    "precision",
+    "recall",
+    "row_recall",
+    "false_alarm_rate",
+    "average_precision"
+  ],
+  "cluster_unit": "station",
+  "multiplicity": "Benjamini-Hochberg across pre-registered primary comparisons; station-clustered bootstrap intervals.",
+  "selection_boundary": "Stations, years, split, features, detector components, candidate rules, thresholds, attack parameters, seeds, baselines, primary endpoint, and statistics are frozen before any observation value is downloaded.",
+  "attack_boundary": "All attacks are transparent controlled injections, not real attack logs.",
+  "frozen_at_utc": "2026-09-21T14:28:39.870796+00:00",
+  "source_metadata_sha256": {
+    "sources": "bf94d3438716ece70bdfd80a568879c18529cc8dc34ed9075c68e1a407105c84",
+    "available_time_series": "bcefeb6bdb9d5ac3cb9af23e29cb3acfb0e64bad4faf2fbeda666e8d49edced2"
+  },
+  "eligible_disjoint_station_count": 324,
+  "forbidden_claims": [
+    "The disjoint MET Norway network is a new independent provider.",
+    "Disjoint stations prove station or provider independence.",
+    "Controlled injections are real production attacks.",
+    "The new network may overwrite Stage304-308 results."
+  ]
+}

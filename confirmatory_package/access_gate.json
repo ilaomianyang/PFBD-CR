@@ -1,0 +1,15 @@
+{
+  "status": "ACCESS_GATE_OPENED_AFTER_FREEZE",
+  "package_id": "TMQC-CONFIRMATORY-DISJOINT-MET-NORWAY-20260921-v1.0",
+  "protocol_frozen": true,
+  "data_frozen": true,
+  "analysis_frozen": true,
+  "labels_inspected": false,
+  "outcome_summaries_inspected": false,
+  "observation_values_read": 0,
+  "gate_opened_utc": "2026-09-21T14:49:46.939313+00:00",
+  "gate_rule": "Do not download observation values or inspect labels until the protocol, data, and analysis files are hash-recorded and the Stage310 audit passes.",
+  "frozen_at_utc": "2026-09-21T14:28:39.870796+00:00",
+  "download_script_sha256": "943de2a7e3127460f9937c459c3d06f326a7b60619698765d2dfc28096979b3c",
+  "analysis_script_sha256": "24c8956f20698d096a559ad55bf8c8bb69347a57ac7ddc29826447b5f8941608"
+}

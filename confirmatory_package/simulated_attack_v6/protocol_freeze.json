@@ -1,0 +1,204 @@
+{
+  "status": "SIMULATION_PROTOCOL_V6_FROZEN_BEFORE_PERFORMANCE_EVALUATION",
+  "protocol_id": "TMQC-SIMULATED-ATTACK-V6-20260922",
+  "frozen_at_utc": "2026-09-22T00:00:00Z",
+  "purpose": "真实气象观测背景上的预注册模拟攻击安全运行点最终锁定流；V6 使用未见攻击参数组合、独立随机流和主 FAR=0.0065，不代表真实生产攻击日志。",
+  "provider_count": 4,
+  "providers": {
+    "MeteoSwiss": {
+      "normalized": "tables/stage216_swiss_normalized.parquet",
+      "protocol": "tables/stage214_swiss_protocol_preregistration.json",
+      "split": "2021-2023 train / 2024 valid / 2025 test",
+      "normalized_sha256": "c06e5ed8ec38a2f382f3d6c8259b15ab939755d88feacc761f82979ccd871c13",
+      "protocol_sha256": "eea8a6168654664f1e93c47f0089025cfd3fdf514b817203a1c97271f79289cd"
+    },
+    "NOAA ISD": {
+      "normalized": "tables/stage82_noaa_extended_normalized.parquet",
+      "protocol": "tables/stage222_noaa_transfer_protocol_preregistration.json",
+      "split": "2020-2022 train / 2023 valid / 2024 test",
+      "normalized_sha256": "54f4e67ad10a975c56078fc456db8bd83f78e04f0cdee3cf356ff3e658d3773a",
+      "protocol_sha256": "75e64dc4ec6fab5b5ce59e76611995277f768c834d921a3f178734030effad47"
+    },
+    "KNMI": {
+      "normalized": "tables/stage226_knmi_normalized.parquet",
+      "protocol": "tables/stage224_knmi_protocol_preregistration.json",
+      "split": "2021-2023 train / 2024 valid / 2025 test",
+      "normalized_sha256": "f9813d7196aaf00f452aa79c3407e167b0cfa11eba1f880b0d97bec248f8cd1f",
+      "protocol_sha256": "e9936f42fcb15b3726f3132d0c90a59e89f155fcf25851e3c6d2e995977b9acd"
+    },
+    "ECCC": {
+      "normalized": "tables/stage236_eccc_normalized.parquet",
+      "protocol": "tables/stage234_eccc_protocol_preregistration.json",
+      "split": "2021-2023 train / 2024 valid / 2025 test",
+      "normalized_sha256": "7511cc0a6e4d89e6eddc5f2c8bee621ed58831e855bc092f0d795db25bd50b33",
+      "protocol_sha256": "f250f081ba44c5926b27228f47e4c233d7862827dbf198b6960a6398ea85f2a8"
+    }
+  },
+  "seeds": [
+    3407,
+    6257,
+    7919,
+    104729,
+    20260715
+  ],
+  "primary_far": 0.0065,
+  "primary_endpoint": "event_coverage",
+  "secondary_endpoints": [
+    "f1",
+    "precision",
+    "row_recall",
+    "auprc",
+    "false_alarm_rate"
+  ],
+  "bootstrap": {
+    "unit": "station",
+    "iterations": 10000,
+    "seed": 20260923
+  },
+  "multiplicity": "Benjamini-Hochberg over provider x attack scenario comparisons",
+  "attack_scenarios": [
+    {
+      "name": "low_spike",
+      "base_type": "spike",
+      "magnitude": 4.2,
+      "length": 4
+    },
+    {
+      "name": "low_offset",
+      "base_type": "offset",
+      "magnitude": 1.6,
+      "length": 10
+    },
+    {
+      "name": "slow_drift",
+      "base_type": "drift",
+      "start": 0.0,
+      "end": 2.0,
+      "length": 32
+    },
+    {
+      "name": "short_lag",
+      "base_type": "time_shift",
+      "lag_rows": 2,
+      "length": 6
+    },
+    {
+      "name": "delay",
+      "base_type": "time_shift",
+      "lag_rows": 6,
+      "length": 14
+    },
+    {
+      "name": "long_stuck",
+      "base_type": "stuck",
+      "length": 20
+    },
+    {
+      "name": "drop_replay",
+      "base_type": "stuck",
+      "length": 10
+    },
+    {
+      "name": "low_noise",
+      "base_type": "gaussian_noise",
+      "sigma": 0.8,
+      "length": 14
+    },
+    {
+      "name": "coordinated_offset",
+      "base_type": "offset",
+      "magnitude": 1.6,
+      "length": 10,
+      "station_count": 2,
+      "coordinated": true
+    }
+  ],
+  "valid_attack_seed_offset": 1010001,
+  "test_attack_seed_offset": 1020001,
+  "attack_generation_rules": {
+    "train": "normal observations only; no attack injection",
+    "valid": "scenario blocks injected with the frozen V2 generator; valid labels may select only the frozen candidate rule and FAR threshold",
+    "test": "scenario blocks injected with an independent V2 seed stream; test labels are evaluation-only",
+    "delay": "value replayed from a fixed four-row lag; it is a delayed measurement, not a timestamp edit",
+    "drop_replay": "a dropped packet is represented by an old-value hold while observation_present remains true; this avoids giving every method a free missingness label",
+    "coordinated": "two stations receive the same attack start and scenario, selected deterministically from the frozen station order",
+    "unseen_boundary": "delay/drop-replay are new attack families relative to V1; V1 parameters are not reused for selection"
+  },
+  "method_freeze": {
+    "trust_candidates": [
+      "trust_valid_f1",
+      "trust_nonstuck_event_macro"
+    ],
+    "baselines": [
+      "robust_max_deviation",
+      "isolation_forest",
+      "one_class_svm_20k",
+      "one_class_svm_50k",
+      "one_class_svm_100k",
+      "pca_reconstruction",
+      "mlp_autoencoder_reconstruction",
+      "knn_distance",
+      "ewma_deviation",
+      "arima_innovation",
+      "gru_predictor",
+      "lightweight_autoencoder",
+      "ics_cps_spc_proxy"
+    ],
+    "threshold_rule": "valid normal rows only at FAR=0.01",
+    "selection_rule": "no test labels, no test threshold selection, no attack-specific test tuning",
+    "v4_candidate_family": [
+      "trust_only",
+      "route_knn_arima",
+      "trust_shape_union"
+    ],
+    "v4_selection_rule": "valid only; retain at least 95% of trust_only validation F1, maximize validation event coverage, tie by F1; test labels forbidden",
+    "v5_primary_far": 0.0075,
+    "v5_budget_rule": "trust 50%, EWMA 25%, ARIMA 25% of primary FAR; valid-only candidate selection; test labels forbidden",
+    "v6_primary_far": 0.0065,
+    "v6_budget_rule": "trust 50%, EWMA 25%, ARIMA 25% of primary FAR; valid-only selection; test labels forbidden"
+  },
+  "claim_boundary": [
+    "This package supports only simulated/controlled attack claims.",
+    "V4 is a new attack-parameter and random-stream lock on the same four providers.",
+    "All baseline wins and failures remain reportable."
+  ],
+  "source_code_sha256": "2aa31834ada5f96b6d16dab5654d3640eb65c28d808fff9d55fd403deb4d8c80",
+  "ensemble_freeze": {
+    "candidate_family": {
+      "trust_only": [
+        [
+          "trust_valid_f1",
+          0.01
+        ]
+      ],
+      "trust_arima": [
+        [
+          "trust_valid_f1",
+          0.0075
+        ],
+        [
+          "arima_innovation",
+          0.0025
+        ]
+      ],
+      "trust_shape_union": [
+        [
+          "trust_valid_f1",
+          0.005
+        ],
+        [
+          "ewma_deviation",
+          0.0025
+        ],
+        [
+          "arima_innovation",
+          0.0025
+        ]
+      ]
+    },
+    "selection": "valid only; retain at least 95% of trust_valid_f1 validation F1, then maximize validation event coverage, then F1; test labels forbidden",
+    "primary_far": 0.01
+  },
+  "evaluation_entrypoint": "src/stage349_v6_locked_evaluation.py",
+  "audit_entrypoint": "src/stage351_v6_station_bh_audit.py"
+}

@@ -1,0 +1,15 @@
+{
+  "status": "DATA_FREEZE_DECLARED_BEFORE_OBSERVATION_DOWNLOAD",
+  "package_id": "TMQC-CONFIRMATORY-DISJOINT-MET-NORWAY-20260921-v1.0",
+  "provider_id": "met_norway_frost",
+  "network_id": "MET_NORWAY_FROST_DISJOINT_V1",
+  "station_manifest_path": "confirmatory_package/met_norway_disjoint_stations.csv",
+  "station_manifest_sha256": "f4caf0416f94457c53a308906f38d374b97c6136a37d5afeec7169e3b2b2f61c",
+  "raw_files_downloaded": false,
+  "observation_values_read": 0,
+  "download_contract": "After this freeze, download only the official Frost /observations/v0.jsonld endpoint for the frozen station IDs and years using the frozen per-station source_id, exposure_category, quality code, and test-period boundary.",
+  "raw_output_root": "raw/met_norway_frost_disjoint_v1",
+  "normalized_output": "tables/stage311_met_norway_disjoint_download_normalized.parquet",
+  "test_manifest_requirement": "Every downloaded station-year response must be recorded with URL, retrieval time, bytes, and SHA256 in test_manifest.json.",
+  "frozen_at_utc": "2026-09-21T14:28:39.870796+00:00"
+}
