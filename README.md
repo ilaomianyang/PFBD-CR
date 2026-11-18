@@ -20,9 +20,20 @@ study. It uses controlled attack injections on real meteorological observation
 backgrounds; these attacks are not production incidents or third-party attack
 logs.
 
-The V6 Trust component uses a centered Hampel rolling window. V6 is therefore a
-batch evaluation with future information in that component and must not be
-described as a strictly causal online detector.
+The Hampel channel has two information sets in this code, and they must not be
+conflated:
+
+- **V6 frozen results (batch)**: `HampelMADDetector()` defaults to
+  `center=True`, a centred rolling window that also reads samples after the
+  current step. V6 is therefore a batch evaluation and must not be described as
+  a strictly causal online detector.
+- **Current one-sided setting (streaming)**: `HampelMADDetector(center=False)`
+  uses a backward-only window that ends at the current step, so the residual
+  never reads a future sample and matches the causal formulation of the
+  associated paper. `tests/test_detectors.py` checks this prefix invariance.
+
+Any number reported as a strictly causal streaming result must come from the
+`center=False` path; numbers in the frozen V6 tables come from `center=True`.
 
 The V9 future-window study was not evaluated and does not contribute to the
 reported performance claims. Stage500 remains exploratory and does not replace
