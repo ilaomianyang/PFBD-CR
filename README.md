@@ -1,9 +1,12 @@
-# TrustMeteo-QC
+# PFBD-CR
 
 **English** | [简体中文](README.zh-CN.md)
 
-Research code for trust-aware quality control and safety-constrained recovery
-of meteorological sensor streams.
+Research code for physics-informed, false-alarm-bounded defense and causal
+recovery of meteorological sensor streams.
+
+> The project and repository name were unified to **PFBD-CR**; earlier releases
+> and links refer to this code as **TrustMeteo-QC**.
 
 This is a code-only repository. Restricted observations, generated result
 tables, model weights, testbed binaries, manuscripts, and working notes are not

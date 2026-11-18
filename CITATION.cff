@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-message: "If you use this code, please cite the TrustMeteo-QC software record or the associated paper when available."
-title: "TrustMeteo-QC: Trust-Aware Quality Control and Safety-Constrained Recovery for Meteorological Sensor Streams"
+message: "If you use this code, please cite the PFBD-CR software record or the associated paper when available."
+title: "PFBD-CR: Physics-Informed False-Alarm-Bounded Defense and Causal Recovery for Meteorological Sensor Streams"
 authors:
   - name: "ilaomianyang"
-version: 1.0.0
-date-released: 2026-11-02
+version: 1.0.1
+date-released: 2026-11-18
 license: MIT
-repository-code: "https://github.com/ilaomianyang/TrustMeteo-QC"
+repository-code: "https://github.com/ilaomianyang/PFBD-CR"

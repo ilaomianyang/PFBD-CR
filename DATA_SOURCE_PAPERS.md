@@ -2,7 +2,7 @@
 
 [English README](README.md) | [简体中文 README](README.zh-CN.md)
 
-本文档回答一个具体问题：TrustMeteo-QC 每个数据源应当引用哪篇论文或哪份官方
+本文档回答一个具体问题：PFBD-CR 每个数据源应当引用哪篇论文或哪份官方
 数据说明。检索和 DOI 核对日期为 2026-11-02。
 
 判断规则：
