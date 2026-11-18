@@ -89,7 +89,8 @@ python tests\run_tests.py
 ```
 
 These tests check detector interfaces, spatial outlier response, validation-only
-fusion calibration, and the rule that recovery does not rewrite clean rows.
+fusion calibration, the rule that recovery does not rewrite clean rows, and the
+prefix invariance of the one-sided Hampel window.
 
 ## Reproduction entry points
 
