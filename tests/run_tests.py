@@ -23,13 +23,14 @@ def main() -> int:
         detectors.test_all_detectors_fit_score_predict,
         detectors.test_spatial_detector_responds_to_single_station_outlier,
         detectors.test_seasonal_residual_cusum_is_finite,
+        detectors.test_hampel_one_sided_window_ignores_future_samples,
         pipeline.test_fusion_uses_validation_only_for_threshold_and_weights,
         pipeline.test_recovery_candidates_mask_predictions_and_select_valid_weights,
     ]
     for test in tests:
         test()
         print(f"PASS {test.__name__}")
-    print(f"PASS {len(tests)} core TrustMeteo-QC tests")
+    print(f"PASS {len(tests)} core PFBD-CR tests")
     return 0
 
 

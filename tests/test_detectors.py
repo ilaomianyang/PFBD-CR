@@ -73,3 +73,27 @@ def test_seasonal_residual_cusum_is_finite():
     scores = detector.score(df)
     assert scores.shape == (len(df),)
     assert np.isfinite(scores).all()
+
+
+def _probe_frame(periods: int = 15) -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "timestamp_utc": pd.date_range("2024-01-01", periods=periods, freq="h", tz="UTC"),
+            "station_key": ["probe"] * periods,
+            "observed_value": np.full(periods, 10.0),
+        }
+    )
+
+
+def test_hampel_one_sided_window_ignores_future_samples():
+    original = _probe_frame()
+    original.loc[7, "observed_value"] = 25.0
+    changed_future = original.copy()
+    changed_future.loc[8:10, "observed_value"] = 100.0
+
+    causal = HampelMADDetector(center=False).fit(original)
+    assert np.allclose(causal.score(original)[:8], causal.score(changed_future)[:8])
+
+    batch = HampelMADDetector(center=True).fit(original)
+    assert not np.allclose(batch.score(original)[:8], batch.score(changed_future)[:8])
+
